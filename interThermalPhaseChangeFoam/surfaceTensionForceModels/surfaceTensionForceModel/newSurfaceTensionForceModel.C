@@ -40,7 +40,10 @@ Foam::surfaceTensionForceModel::New
 
     Info<< "Selecting surface tension force model: " << modelType << endl;
 
-    dictionaryConstructorTable::iterator cstrIter =
+    //dictionaryConstructorTable::iterator cstrIter =
+     //   dictionaryConstructorTablePtr_->find(modelType);
+
+    auto cstrIter =
         dictionaryConstructorTablePtr_->find(modelType);
 
     if (cstrIter == dictionaryConstructorTablePtr_->end())

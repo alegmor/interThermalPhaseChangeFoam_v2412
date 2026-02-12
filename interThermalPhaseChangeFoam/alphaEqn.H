@@ -55,8 +55,8 @@
             phiAlpha,
             Sp,
             Su,
-            1,
-            0
+            oneField(),
+            zeroField()
         );
 
         rhoPhi +=

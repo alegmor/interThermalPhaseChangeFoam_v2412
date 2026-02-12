@@ -185,7 +185,7 @@ void Foam::thermalPhaseChangeModels::HiLoNoPCVAlpha1::calcQ_pc()
     surfaceScalarField Tf = fvc::interpolate(T_);
 
     // Reset interface field, then interpolate
-    InterfaceField_ = 0;
+    InterfaceField_ = dimensionedScalar(dimless, 0.0);
 
     // Loop through cond cells:
     for
@@ -228,7 +228,7 @@ void Foam::thermalPhaseChangeModels::HiLoNoPCVAlpha1::calcQ_pc()
         if( isA<wallFvPatch>( mesh_.boundary()[pI] ) )    
         {  WallCells.append( mesh_.boundary()[pI].faceCells() );  }
     }
-    WallField = 0;
+    WallField = dimensionedScalar(dimless, 0.0);
     forAll( WallCells, cI )
     {   
         WallField[WallCells[cI]] = 1;

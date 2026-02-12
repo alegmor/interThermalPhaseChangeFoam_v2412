@@ -144,11 +144,15 @@ Foam::twoPhaseThermalMixture::twoPhaseThermalMixture
             phi
         )
     ),
-    rho1_(nuModel1_->viscosityProperties().lookup("rho")),
-    rho2_(nuModel2_->viscosityProperties().lookup("rho")),
+   // rho1_(nuModel1_->viscosityProperties().lookup("rho")),
+    //rho2_(nuModel2_->viscosityProperties().lookup("rho")),
+    rho1_("rho", nuModel1_->viscosityProperties()),
+    rho2_("rho", nuModel2_->viscosityProperties()),
     //First get the specific heats from the dictionary
-    cp1_( subDict(phase1Name_).lookup("cp") ),
-    cp2_( subDict(phase2Name_).lookup("cp") ),
+    //cp1_( subDict(phase1Name_).lookup("cp") ),
+    //cp2_( subDict(phase2Name_).lookup("cp") ),
+    cp1_("cp", subDict(phase1Name_)),
+    cp2_("cp", subDict(phase2Name_)),
     U_(U),
     phi_(phi),
     alpha1_(U_.db().lookupObject<const volScalarField> (alpha1Name)),

@@ -1,0 +1,28 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.0.x                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      InterfaceField;
+}
+
+dimensions      [0 0 0 0 0 0 0];
+internalField   uniform 0;
+
+boundaryField
+{
+    Cavity          { type zeroGradient; }
+    Base            { type zeroGradient; }
+    FarStream       { type zeroGradient; }
+    Top             { type zeroGradient; }
+    Axis            { type symmetryPlane; }   // or zeroGradient, depending
+    FrontNBack_neg  { type wedge; }
+    FrontNBack_pos  { type wedge; }
+}

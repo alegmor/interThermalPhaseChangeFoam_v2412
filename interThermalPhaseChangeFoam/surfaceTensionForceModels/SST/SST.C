@@ -66,6 +66,17 @@ Foam::surfaceTensionForceModels::SST::SST
         surfaceTensionForceProperties.lookupOrDefault<scalar>
         ("NormalFilterFactor", 0.9)
     ),
+    sigma_
+    (
+        "sigma",
+        dimMass/dimTime/dimTime,
+        surfaceTensionForceProperties.lookupOrDefault<scalar>
+        (
+            "sigma",
+            alpha1.mesh().lookupObject<dictionary>("transportProperties")
+                .get<scalar>("sigma")
+        )
+    ),
     pc
     (
         IOobject
@@ -203,7 +214,9 @@ void Foam::surfaceTensionForceModels::SST::correct()
     //Step 6: compute surface tension force on faces
     const dimensionedScalar dummyA("DummyA", dimensionSet(0,2,0,0,0,0,0), 1.0);
 
-    fcf = -interface_.sigma()*Kf*deltasf;
+    fcf = -fvc::interpolate(interface_.sigmaK())*deltasf;
+
+    //fcf = -sigma_*Kf*deltasf;
 
     //Step 7: filter surface tension forces to only be normal to interfaces
     fcf_filter =

@@ -147,7 +147,7 @@ void Foam::thermalPhaseChangeModels::interfacialResistance::calcQ_pc()
             WallCells.append( mesh_.boundary()[pI].faceCells() );
         }
     }
-    WallField = 0;
+    WallField = dimensionedScalar(dimless, 0.0);
     forAll( WallCells, cI )
     {   
         WallField[WallCells[cI]] = 1;
@@ -164,10 +164,10 @@ void Foam::thermalPhaseChangeModels::interfacialResistance::calcQ_pc()
     const dimensionedScalar& rho1 = twoPhaseProperties_.rho1();
     const dimensionedScalar& rho2 = twoPhaseProperties_.rho2();
 
-    interfaceArea.internalField() = mag(fvc::grad(alpha1_))*mesh_.V();
+    interfaceArea.primitiveFieldRef() = mag(fvc::grad(alpha1_))*mesh_.V();
 
     // decaying Phase Change Heat per unit volume
-    Q_pc_.internalField() =
+    Q_pc_.primitiveFieldRef() =
          twoPhaseProperties_.rho()*twoPhaseProperties_.cp()
         *((1.0 - exp( -hi*interfaceArea*dT.value()
                       /(  mesh_.V()*twoPhaseProperties_.rho()

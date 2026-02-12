@@ -165,7 +165,9 @@ const scalar CHSP = CombinedHSPressure ? 1.0 : 0;
             IOobject::NO_WRITE
         ),
         mesh,
-        dimensionedScalar(transportProperties.lookup("sigma"))
+        //dimensionedScalar(transportProperties.lookup("sigma"))
+        dimensionedScalar("sigma", dimMass/dimTime/dimTime, transportProperties.get<scalar>("sigma"))
+
     );
 
     //Reference temperature for calculating enthalpies
@@ -180,7 +182,8 @@ const scalar CHSP = CombinedHSPressure ? 1.0 : 0;
             IOobject::NO_WRITE
         ),
         mesh,
-        dimensionedScalar(transportProperties.lookup("T_0"))
+        //dimensionedScalar(transportProperties.lookup("T_0"))
+        dimensionedScalar("T_0", dimTemperature, transportProperties.get<scalar>("T_0"))
     );
 
     // Construct interface from alpha1 distribution
@@ -205,7 +208,7 @@ const scalar CHSP = CombinedHSPressure ? 1.0 : 0;
     (
         thermalPhaseChangeModel::New
         (
-            thermalPhaseChangeProperties.lookup("model"),
+            word(thermalPhaseChangeProperties.lookup("model")),
             thermalPhaseChangeProperties,
             twoPhaseProperties,
             T,
@@ -213,12 +216,13 @@ const scalar CHSP = CombinedHSPressure ? 1.0 : 0;
         )
     );
 
+
     //Initialize the surface tension force model:
     autoPtr<surfaceTensionForceModel> stfModel
     (
         surfaceTensionForceModel::New
         (
-            surfaceTensionForceProperties.lookup("model"),
+            word(surfaceTensionForceProperties.lookup("model")),
             surfaceTensionForceProperties,
             interface,
             alpha1
@@ -269,7 +273,7 @@ const scalar CHSP = CombinedHSPressure ? 1.0 : 0;
         p_rgh = p - (1.0-CHSP)*rho*gh - stfModel->pcap(); 
     }
 
-    fv::IOoptionList fvOptions(mesh);
+    //fv::IOoptionList fvOptions(mesh);
 
     //Create kEff here so it can be accessed globally
     surfaceScalarField kEff

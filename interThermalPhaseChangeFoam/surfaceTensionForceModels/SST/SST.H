@@ -68,7 +68,9 @@ class SST
     //Cut off forces below this factor
     const scalar phi_c_thresholdFactor;
     //Component of non-interface-normal alpha1 to remove
-    const scalar filterFactor; 
+    const scalar filterFactor;
+    //Surface tension coefficient
+    const dimensionedScalar sigma_;
 
     //- Surface tension forces on cell faces
     volScalarField pc;

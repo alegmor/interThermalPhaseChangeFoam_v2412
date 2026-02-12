@@ -54,7 +54,7 @@ dynamicKistlerAlphaContactAngleFvPatchScalarField
     const DimensionedField<scalar, volMesh>& iF
 )
 :
-    alphaContactAngleFvPatchScalarField(p, iF),
+    alphaContactAngleTwoPhaseFvPatchScalarField(p, iF),
     thetaA_(0.0),
     thetaR_(0.0),
     muName_("undefined"),
@@ -70,7 +70,7 @@ dynamicKistlerAlphaContactAngleFvPatchScalarField
     const fvPatchFieldMapper& mapper
 )
 :
-    alphaContactAngleFvPatchScalarField(acpsf, p, iF, mapper),
+    alphaContactAngleTwoPhaseFvPatchScalarField(acpsf, p, iF, mapper),
     thetaA_(acpsf.thetaA_),
     thetaR_(acpsf.thetaR_),
     muName_(acpsf.muName_),
@@ -86,7 +86,7 @@ dynamicKistlerAlphaContactAngleFvPatchScalarField
     const dictionary& dict
 )
 :
-    alphaContactAngleFvPatchScalarField(p, iF),
+    alphaContactAngleTwoPhaseFvPatchScalarField(p, iF),
     thetaA_(readScalar(dict.lookup("thetaA"))),
     thetaR_(readScalar(dict.lookup("thetaR"))),
     muName_(dict.lookup("muEffKistler")),
@@ -102,7 +102,7 @@ dynamicKistlerAlphaContactAngleFvPatchScalarField
     const dynamicKistlerAlphaContactAngleFvPatchScalarField& acpsf
 )
 :
-    alphaContactAngleFvPatchScalarField(acpsf),
+    alphaContactAngleTwoPhaseFvPatchScalarField(acpsf),
     thetaA_(acpsf.thetaA_),
     thetaR_(acpsf.thetaR_),
     muName_(acpsf.muName_),
@@ -117,7 +117,7 @@ dynamicKistlerAlphaContactAngleFvPatchScalarField
     const DimensionedField<scalar, volMesh>& iF
 )
 :
-    alphaContactAngleFvPatchScalarField(acpsf, iF),
+    alphaContactAngleTwoPhaseFvPatchScalarField(acpsf, iF),
     thetaA_(acpsf.thetaA_),
     thetaR_(acpsf.thetaR_),
     muName_(acpsf.muName_),
@@ -145,8 +145,8 @@ tmp<scalarField> dynamicKistlerAlphaContactAngleFvPatchScalarField::theta
             << "    Set both muEffKistler and sigmaKistler according to the "
             << "definition of dynamicKistlerAlphaContactAngle"
             << "\n    on patch " << this->patch().name()
-            << " of field " << this->dimensionedInternalField().name()
-            << " in file " << this->dimensionedInternalField().objectPath()
+            << " of field " << this->internalField().name()
+            << " in file " << this->internalField().objectPath()
             << exit(FatalError);
     }
 

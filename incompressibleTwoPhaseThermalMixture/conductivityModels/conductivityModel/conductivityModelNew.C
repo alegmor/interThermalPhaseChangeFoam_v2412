@@ -45,8 +45,11 @@ Foam::autoPtr<Foam::conductivityModel> Foam::conductivityModel::New
     Info<< "Selecting incompressible thermal transport model " 
         << modelType << endl;
 
-    dictionaryConstructorTable::iterator cstrIter =
-        dictionaryConstructorTablePtr_->find(modelType);
+   // dictionaryConstructorTable::iterator cstrIter =
+     //   dictionaryConstructorTablePtr_->find(modelType);
+
+    auto cstrIter =
+    dictionaryConstructorTablePtr_->find(modelType);
 
     if (cstrIter == dictionaryConstructorTablePtr_->end())
     {

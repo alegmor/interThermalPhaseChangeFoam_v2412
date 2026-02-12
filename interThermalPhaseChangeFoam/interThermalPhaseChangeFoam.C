@@ -47,11 +47,12 @@ Description
 #include "subCycle.H"
 #include "interfaceProperties.H"
 #include "twoPhaseThermalMixture.H"
-#include "turbulenceModel.H"
+//#include "turbulenceModel.H"
+#include "turbulentTransportModel.H"
 #include "interpolationTable.H"
 #include "pimpleControl.H"
 #include "wallFvPatch.H"
-#include "fvIOoptionList.H"
+#include "fvOptions.H"
 #include "MeshGraph.H"
 #include "thermalPhaseChangeModel.H"
 #include "surfaceTensionForceModel.H"
@@ -64,12 +65,12 @@ int main(int argc, char *argv[])
     #include "setRootCase.H"
     #include "createTime.H"
     #include "createMesh.H"
-
-    pimpleControl pimple(mesh);
+    #include "createControl.H"
+    #include "createTimeControls.H"
+  //  pimpleControl pimple(mesh);
 
     #include "initContinuityErrs.H"
     #include "createFields.H"
-    #include "readTimeControls.H"
     #include "correctPhi.H"
     #include "CourantNo.H"
     #include "setInitialDeltaT.H"
@@ -125,7 +126,8 @@ int main(int argc, char *argv[])
         Info<< "****" << endl;
         Info<< "****Pressure range: " << gMax(p) - gMin(p)
             << " Pa" << endl;
-        Info<< "****Max velocity: " << gMax( mag(U.internalField()) )
+        volScalarField magU = mag(U);
+        Info<< "****Max velocity: " << gMax(magU)
             << " m/s" << endl;
         Info<< "****Phase change energy: "
             << gSum( phaseChangeModel->Q_pc()*mesh.V() ) << " W" << endl;

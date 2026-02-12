@@ -52,7 +52,8 @@ Foam::conductivityModels::Fourier::Fourier
 )
 :
     conductivityModel(name, conductivityProperties, U, phi),
-    lambda0_(conductivityProperties_.lookup("lambda")),
+    //lambda0_(conductivityProperties_.lookup("lambda"))
+    lambda0_("lambda", conductivityProperties_),
     lambda_
     (
         IOobject

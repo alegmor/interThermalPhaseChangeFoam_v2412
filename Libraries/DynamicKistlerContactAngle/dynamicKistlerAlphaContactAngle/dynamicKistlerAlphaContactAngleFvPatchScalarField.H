@@ -40,7 +40,7 @@ Author
 #ifndef dynamicKistlerAlphaContactAngleFvPatchScalarField_H
 #define dynamicKistlerAlphaContactAngleFvPatchScalarField_H
 
-#include "alphaContactAngleFvPatchScalarField.H"
+#include "alphaContactAngleTwoPhaseFvPatchScalarField.H"
 #include "mathematicalConstants.H"
 #include "surfaceFields.H"
 #include "RiddersRoot.H"
@@ -56,7 +56,7 @@ namespace Foam
 
 class dynamicKistlerAlphaContactAngleFvPatchScalarField
 :
-    public alphaContactAngleFvPatchScalarField
+    public alphaContactAngleTwoPhaseFvPatchScalarField
 {
     // Private data
 

@@ -139,7 +139,9 @@ void Foam::thermalPhaseChangeModels::InterfaceEquilibrium::calcQ_pc()
     surfaceScalarField Tf = fvc::interpolate(T_);
 
     // Reset interface field, then interpolate
-    InterfaceField_ = 0;
+    //InterfaceField_ = 0;
+    InterfaceField_ = dimensionedScalar(dimless, 0.0);
+
 
     // Loop through cond cells:
     for
@@ -186,7 +188,8 @@ void Foam::thermalPhaseChangeModels::InterfaceEquilibrium::calcQ_pc()
         }
     }
     
-    WallField = 0;
+    WallField = dimensionedScalar(dimless, 0.0);
+
     forAll( WallCells, cI )
     {   
         WallField[WallCells[cI]] = 1;

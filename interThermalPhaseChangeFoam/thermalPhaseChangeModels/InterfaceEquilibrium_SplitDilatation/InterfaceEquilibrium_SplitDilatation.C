@@ -156,7 +156,7 @@ void Foam::thermalPhaseChangeModels::InterfaceEquilibrium_SplitDilatation::calcQ
     surfaceScalarField Tf = fvc::interpolate(T_);
 
     // Reset interface field, then interpolate
-    InterfaceField_ = 0;
+    InterfaceField_ = dimensionedScalar(dimless, 0.0);
 
     // Loop through cond cells:
     for
@@ -201,7 +201,7 @@ void Foam::thermalPhaseChangeModels::InterfaceEquilibrium_SplitDilatation::calcQ
             WallCells.append( mesh_.boundary()[pI].faceCells() );
         }
     }
-    WallField = 0;
+    WallField = dimensionedScalar(dimless, 0.0);
     forAll( WallCells, cI )
     {   
         WallField[WallCells[cI]] = 1;
@@ -263,7 +263,7 @@ void Foam::thermalPhaseChangeModels::InterfaceEquilibrium_SplitDilatation::calcQ
 void Foam::thermalPhaseChangeModels::InterfaceEquilibrium_SplitDilatation::calcPCV()
 {
     // Get some local references to helpful fields
-    const volScalarField& Q_pc_ = this->Q_pc();
+    const auto& Q_pc_ = this->Q_pc();
     // Direction of interface in each cell
     const volVectorField gradAlpha = fvc::grad( alpha1_ );
     dimensionedScalar epsInvLength
@@ -282,8 +282,8 @@ void Foam::thermalPhaseChangeModels::InterfaceEquilibrium_SplitDilatation::calcP
         (Q_pc_/h_lv_)*(scalar(1.0)/twoPhaseProperties_.rho2());
 
     // Scale by mesh volume:
-    LiquidVolGen.internalField() = LiquidVolGen.internalField() * mesh_.V();
-    VaporVolGen.internalField() = VaporVolGen.internalField() * mesh_.V();
+    LiquidVolGen.primitiveFieldRef() *= mesh_.V();
+    VaporVolGen.primitiveFieldRef() *= mesh_.V();
     
     // Now transport the volumetric generation away from the interface
     // Scan through all cells and apply rule
@@ -427,7 +427,7 @@ void Foam::thermalPhaseChangeModels::InterfaceEquilibrium_SplitDilatation::calcP
     PCVField = LiquidVolGen + VaporVolGen;
 
     //Renormalize by cell volume:
-    PCVField.internalField() = PCVField.internalField() / mesh_.V();
+    PCVField.primitiveFieldRef() /= mesh_.V();
 
 }
 

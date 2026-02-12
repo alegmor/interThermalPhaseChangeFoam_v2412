@@ -15,7 +15,7 @@ const scalar CHSP = CombinedHSPressure ? 1.0 : 0;
         (fvc::interpolate(U) & mesh.Sf())
         + fvc::interpolate(rho*rAU)*fvc::ddtCorr(U, phi)
     );
-   fvOptions.makeRelative(phiU);
+   //fvOptions.makeRelative(phiU);
 
     adjustPhi(phiU, U, p_rgh);
 
@@ -63,12 +63,13 @@ const scalar CHSP = CombinedHSPressure ? 1.0 : 0;
    // Update the fixedFluxPressure BCs to ensure flux consistency
     setSnGrad<fixedFluxPressureFvPatchScalarField>
     (
-        p_rgh.boundaryField(),
+        p_rgh.boundaryFieldRef(),
         (
             phiU.boundaryField()
-          - fvOptions.relative(mesh.Sf().boundaryField() & U.boundaryField())
+          - (mesh.Sf().boundaryField() & U.boundaryField())
         )/(mesh.magSf().boundaryField()*rAUf.boundaryField())
     );
+
 
     while (pimple.correctNonOrthogonal())
     {
